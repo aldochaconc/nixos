@@ -1,0 +1,14 @@
+.direnv/
+target
+result
+result-*
+output-*
+*.qcow2
+dev-shells/*/flake.lock
+
+.vscode
+*.log
+*.tmp
+
+[Bb]ackup
+[Bb]ackup/*
