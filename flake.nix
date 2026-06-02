@@ -112,6 +112,7 @@
       nixosConfigurations = {
         Default = mkHost "Default";
         Vm = mkHost "Vm"; # lightweight VM-friendly host for testing (see ./vm.sh)
+        T430 = mkHost "T430"; # ThinkPad T430 (Ivy Bridge, Intel HD 4000)
       };
     };
 }

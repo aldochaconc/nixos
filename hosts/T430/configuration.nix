@@ -31,7 +31,9 @@ in
     # ../../modules/core/dlna.nix
 
     # Optional
-    ../../modules/hardware/drives # Automatically mount extra external/internal drives
+    # ../../modules/hardware/drives # Mounts /mnt/work + /mnt/games with the UPSTREAM author's
+    #                                 disk UUIDs (not the T430's). Re-enable only after editing
+    #                                 modules/hardware/drives/*.nix with your real UUIDs.
     ../../modules/hardware/video/${vars.videoDriver}.nix # Enable gpu drivers defined in variables.nix
     ../../modules/desktop/${vars.desktop} # Set window manager defined in variables.nix
     ../../modules/programs/browser/${vars.browser} # Set browser defined in variables.nix
@@ -51,7 +53,7 @@ in
     # ../../modules/programs/media/obs-studio
     ../../modules/programs/media/mpv
     ../../modules/programs/misc/tlp
-    ../../modules/programs/misc/lact # GPU fan, clock and power configuration
+    # ../../modules/programs/misc/lact # GPU fan/clock/power — AMD-oriented, no-op on Intel iGPU
   ]
   ++ lib.optional (vars.games == true) ../../modules/core/games.nix;
 }
