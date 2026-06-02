@@ -23,8 +23,8 @@
         device = "nodev";
         efiSupport = true;
         useOSProber = true;
-        gfxmodeEfi = "2715x1527"; # for 4k: 3840x2160
-        gfxmodeBios = "2715x1527"; # for 4k: 3840x2160
+        # gfxmode left unset → GRUB auto-detects panel resolution. Set per-host
+        # if you want to force a specific mode (e.g. "1366x768", "3840x2160").
         theme = pkgs.stdenv.mkDerivation {
           pname = "distro-grub-themes";
           version = "3.1";

@@ -23,9 +23,16 @@
   shell = "zsh"; # zsh, bash
   games = false; # emulators/Godot/etc. — left off in the VM (huge, non-visual)
 
+  # External storage convention (see Default/variables.nix). VM imports the
+  # drives module too; the upstream paths stay so the work/games mountpoints
+  # don't collide (they remain unmounted under `nofail`).
+  workDir = "/mnt/work";
+  gamesDir = "/mnt/games";
+
   # Hardware
   hostname = "nixos-vm";
   videoDriver = "intel"; # VM-friendly (modesetting). nvidia is useless in QEMU.
+  hidpi = false; # QEMU defaults to a low-DPI virtual screen.
   nvidiaChannel = "legacy_580"; # stable, latest, beta, legacy_xxx
   bluetoothSupport = false;
   batterySupport = false;

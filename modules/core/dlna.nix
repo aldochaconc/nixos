@@ -1,6 +1,6 @@
 { host, ... }:
 let
-  inherit (import ../../hosts/${host}/variables.nix) hostname;
+  inherit (import ../../hosts/${host}/variables.nix) hostname workDir;
 in
 {
 
@@ -11,12 +11,12 @@ in
       friendly_name = "${hostname}";
       media_dir = [
         # A = Audio, P = Pictures, V, = Videos, PV = Pictures and Videos.
-        # "A,/mnt/work/Pimsleur/Russian"
-        "/mnt/work/Pimsleur"
-        "/mnt/work/Media/Films"
-        "/mnt/work/Media/Series"
-        "/mnt/work/Media/Videos"
-        "/mnt/work/Media/Music"
+        # "A,${workDir}/Pimsleur/Russian"
+        "${workDir}/Pimsleur"
+        "${workDir}/Media/Films"
+        "${workDir}/Media/Series"
+        "${workDir}/Media/Videos"
+        "${workDir}/Media/Music"
       ];
       inotify = "yes";
       log_level = "warn";

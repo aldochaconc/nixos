@@ -19,11 +19,12 @@ in
   boot.kernelParams = [
     "intel_pstate=active"
     "mem_sleep_default=deep" # Allow deepest sleep states
-    "nvme.noacpi=1" # Helps with NVME power consumption
   ]
-  # The following are only valid/beneficial on Gen8+ (PSR is Haswell+, GuC and DC
-  # are Gen9+). On Ivy Bridge they are ignored at best, so skip them for legacy.
+  # Gen8+ machines are typically paired with NVMe storage. Older Ivy Bridge era
+  # laptops (T430 etc.) ship with SATA SSDs where this parameter is a no-op.
+  # i915 features are Gen8+ as well (PSR Haswell+, GuC/DC Gen9+).
   ++ lib.optionals (!legacyIntel) [
+    "nvme.noacpi=1" # Helps with NVMe power consumption
     "i915.enable_guc=2" # Enable GuC/HuC firmware loading
     "i915.enable_psr=1" # Panel Self Refresh for power savings
     "i915.enable_fbc=1" # Framebuffer compression

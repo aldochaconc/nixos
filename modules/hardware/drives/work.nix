@@ -1,6 +1,9 @@
-{ lib, ... }:
+{ lib, host, ... }:
+let
+  inherit (import ../../../hosts/${host}/variables.nix) workDir;
+in
 {
-  fileSystems."/mnt/work" = lib.mkForce {
+  fileSystems.${workDir} = lib.mkForce {
     device = "/dev/disk/by-uuid/f6f6d68c-68f8-4c50-8155-105a22b9ff35";
     fsType = "ext4";
     options = [

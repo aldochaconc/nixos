@@ -14,6 +14,7 @@
 
   environment.systemPackages = with pkgs; [
     appimage-run # Needed For AppImage Support
+    claude-code # Anthropic Claude Code CLI
     killall # For Killing All Instances Of Programs
     lm_sensors # Used For Getting Hardware Temps
     gnome-disk-utility # Disk Partitioning and Mounting Utility

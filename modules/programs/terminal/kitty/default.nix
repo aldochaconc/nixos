@@ -1,11 +1,16 @@
-{ pkgs, ... }:
+{ pkgs, host, ... }:
+let
+  vars = import ../../../../hosts/${host}/variables.nix;
+  hidpi = vars.hidpi or true;
+  fontSize = if hidpi then 12.0 else 10.0;
+in
 {
   home-manager.sharedModules = [
     (_: {
       programs.kitty = {
         enable = true;
         font = {
-          size = 12.0;
+          size = fontSize;
           name = "monospace";
         };
         themeFile = "Catppuccin-Mocha";

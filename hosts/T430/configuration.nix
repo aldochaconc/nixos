@@ -53,6 +53,7 @@ in
     # ../../modules/programs/media/obs-studio
     ../../modules/programs/media/mpv
     ../../modules/programs/misc/tlp
+    ../../modules/programs/misc/electron-scale # Shrinks VSCode/Slack/Obsidian/Discord/GitHub Desktop on low-DPI (gated on vars.hidpi)
     # ../../modules/programs/misc/lact # GPU fan/clock/power — AMD-oriented, no-op on Intel iGPU
   ]
   ++ lib.optional (vars.games == true) ../../modules/core/games.nix;

@@ -33,7 +33,7 @@ in
     xkb = {
       layout = "${kbdLayout}";
       variant = "${kbdVariant}";
-      options = "caps:swapescape";
+      options = lib.optionalString capslockAsESC "caps:swapescape";
     };
   };
   nix = {

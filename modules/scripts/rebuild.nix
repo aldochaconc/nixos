@@ -36,6 +36,25 @@ pkgs.writeShellScriptBin "rebuild" ''
   # nh os switch --hostname "${host}"
   sudo nixos-rebuild switch --flake "$flake#${host}"
 
+  # Post-switch: refresh live Hyprland session so config changes apply without relogin.
+  if command -v hyprctl >/dev/null && [ -n "$(ls /run/user/$(id -u)/hypr/ 2>/dev/null)" ]; then
+    echo -e "''${GREEN}Reloading Hyprland session...''${NC}"
+    hyprctl reload >/dev/null 2>&1 || true
+
+    # Apply cursor size from home-manager's GTK settings (single source of truth).
+    cursorTheme=$(awk -F'=' '/gtk-cursor-theme-name/{print $2}' "$HOME/.config/gtk-3.0/settings.ini" 2>/dev/null | tr -d '[:space:]')
+    cursorSize=$(awk -F'=' '/gtk-cursor-theme-size/{print $2}' "$HOME/.config/gtk-3.0/settings.ini" 2>/dev/null | tr -d '[:space:]')
+    if [ -n "$cursorTheme" ] && [ -n "$cursorSize" ]; then
+      hyprctl setcursor "$cursorTheme" "$cursorSize" >/dev/null 2>&1 || true
+    fi
+
+    # Waybar: home-manager restarts the systemd unit on config change, but a
+    # legacy waybar exec'd by Hyprland at session start would still own the
+    # socket. Kill strays, then ensure the systemd unit is running.
+    pkill -u "$currentUser" -x waybar 2>/dev/null || true
+    systemctl --user restart waybar.service 2>/dev/null || systemctl --user start waybar.service 2>/dev/null || true
+  fi
+
   echo
   read -rsn1 -p"$(echo -e "''${GREEN}Press any key to continue''${NC}")"
 ''

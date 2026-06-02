@@ -2,6 +2,8 @@ local wezterm = require 'wezterm'
 
 local config = {}
 
+config.font_size = @fontSize@
+
 -- Colors (Catppuccin Mocha)
 config.colors = {
   foreground = '#cdd6f4',
@@ -103,7 +105,7 @@ config.keys = {
     key = 'F',
     mods = 'CTRL',
     action = wezterm.action.SendString(
-      'cd $(fd . /mnt/work /mnt/work/dev/ /run /run/current-system ~/.local/ ~/ --max-depth 2 | fzf)\r'
+      'cd $(fd . @workDir@ @workDir@/dev/ /run /run/current-system ~/.local/ ~/ --max-depth 2 | fzf)\r'
     ),
   },
   -- Ctrl+T: tmux-sessionizer

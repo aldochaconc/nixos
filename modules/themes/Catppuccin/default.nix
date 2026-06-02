@@ -1,5 +1,8 @@
 { host, pkgs, ... }:
 let
+  vars = import ../../../hosts/${host}/variables.nix;
+  hidpi = vars.hidpi or true;
+  cursorSize = if hidpi then 24 else 18;
   variant = "mocha";
   accent = "mauve";
   catppuccin-kvantum-pkg = pkgs.catppuccin-kvantum.override { inherit variant accent; };
@@ -57,7 +60,7 @@ in
           x11.enable = true;
           package = pkgs.bibata-cursors;
           name = "Bibata-Modern-Classic";
-          size = 24;
+          size = cursorSize;
         };
 
         xdg.configFile = {

@@ -1,13 +1,25 @@
 { host, pkgs, ... }:
 let
-  inherit (import ../../../../../hosts/${host}/variables.nix) clock24h terminal;
+  vars = import ../../../../../hosts/${host}/variables.nix;
+  inherit (vars) clock24h terminal;
+  hidpi = vars.hidpi or true; # default true to preserve upstream behavior
   gpuinfo = pkgs.callPackage ../../scripts/gpuinfo.nix { };
+  # Font sizing scales with panel density. HiDPI panels (Omen / 4K) keep the
+  # original chunky sizes; low-DPI panels (T430 1366x768) shrink to taste.
+  fontBase = if hidpi then "16px" else "10px";
+  fontEmph = if hidpi then "23px" else "14px";
+  fontPower = if hidpi then "20px" else "13px";
+  fontDiv = if hidpi then "23.1px" else "14.1px";
 in
 {
   home-manager.sharedModules = [
     (_: {
       programs.waybar = {
         enable = true;
+        systemd = {
+          enable = true;
+          targets = [ "graphical-session.target" ];
+        };
         settings = [
           {
             layer = "top";
@@ -550,7 +562,7 @@ in
           * {
               font-family: "0xProto Nerd Font";
               font-weight: bold;
-              font-size: 16px;
+              font-size: ${fontBase};
               color: @main-fg;
           }
 
@@ -581,11 +593,11 @@ in
 
           #workspaces button.active label,
           #custom-distro {
-              font-size: 23px;
+              font-size: ${fontEmph};
           }
 
           #custom-power_menu {
-              font-size: 20px;
+              font-size: ${fontPower};
           }
 
           #custom-left_div-1, #custom-left_div-2, #custom-left_div-3, #custom-left_div-4,
@@ -594,7 +606,7 @@ in
           #custom-right_div-5,
           #custom-left_inv-1, #custom-left_inv-2,
           #custom-right_inv-1 {
-              font-size: 23.1px;
+              font-size: ${fontDiv};
           }
 
           #custom-user {

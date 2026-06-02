@@ -1,8 +1,12 @@
 {
   pkgs,
   lib,
+  host,
   ...
 }:
+let
+  inherit (import ../../hosts/${host}/variables.nix) workDir gamesDir;
+in
 pkgs.writeShellScriptBin "tmux-sessionizer" ''
   tmux="${pkgs.tmux}/bin/tmux"
   fzf="${pkgs.fzf}/bin/fzf"
@@ -11,7 +15,7 @@ pkgs.writeShellScriptBin "tmux-sessionizer" ''
       selected="$1"
   else
       # Quote the command to preserve spaces in paths
-      selected=$(realpath "$(${lib.getExe pkgs.fd} --min-depth 1 --max-depth 1 --type d . ~/ ~/Documents/ ~/git-clone/ /mnt/ /mnt/*/Projects/ /mnt/*/Media/ /mnt/*/Pimsleur/ /mnt/*/Languages/ | $fzf)")
+      selected=$(realpath "$(${lib.getExe pkgs.fd} --min-depth 1 --max-depth 1 --type d . ~/ ~/Documents/ ~/git-clone/ ${workDir}/ ${workDir}/Projects/ ${workDir}/Media/ ${workDir}/Pimsleur/ ${workDir}/Languages/ ${gamesDir}/ | $fzf)")
   fi
 
   if [[ -z "$selected" ]]; then

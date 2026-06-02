@@ -16,10 +16,15 @@ hl.env("QT_AUTO_SCREEN_SCALE_FACTOR", "1")
 hl.env("QT_ENABLE_HIGHDPI_SCALING", "1")
 hl.env("WLR_RENDERER_ALLOW_SOFTWARE", "1")
 hl.env("NIXPKGS_ALLOW_UNFREE", "1")
+hl.env("XCURSOR_SIZE", tostring(cursorSize))
+hl.env("HYPRCURSOR_SIZE", tostring(cursorSize))
 
 hl.on("hyprland.start", function()
 	hl.exec_cmd(wallpaper)
-	hl.exec_cmd(bar)
+	-- waybar is managed by its systemd user service; others launch here
+	if bar ~= "waybar" then
+		hl.exec_cmd(bar)
+	end
 	hl.exec_cmd("swaync")
 	hl.exec_cmd("nm-applet --indicator")
 	hl.exec_cmd("wl-paste --type text --watch cliphist store") -- clipboard store text data

@@ -1,8 +1,17 @@
 {
   lib,
   pkgs,
+  host,
   ...
 }:
+let
+  vars = import ../../../../hosts/${host}/variables.nix;
+  hidpi = vars.hidpi or true;
+  editorFontSize = if hidpi then 16 else 12;
+  # Electron's UI scale knob. zoomLevel 0 = 100%; each step ≈ ±20%.
+  # Low-DPI panels (T430, VM) get -1 so the whole UI shrinks proportionally.
+  zoomLevel = if hidpi then 0 else (-1);
+in
 {
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "vscode" ];
   home-manager.sharedModules = [
@@ -54,8 +63,8 @@
             # "extensions.autoUpdate" = false; # Fixes vscode freaking out when theres an update
             "window.titleBarStyle" = "custom"; # needed otherwise vscode crashes, see https://github.com/NixOS/nixpkgs/issues/246509
             "window.menuBarVisibility" = "classic";
-            # "window.zoomLevel" = 0.5;
-            "editor.fontSize" = 16;
+            "window.zoomLevel" = zoomLevel;
+            "editor.fontSize" = editorFontSize;
             "workbench.colorTheme" = "Catppuccin Mocha";
             "workbench.iconTheme" = "catppuccin-mocha";
             "catppuccin.accentColor" = "mauve";

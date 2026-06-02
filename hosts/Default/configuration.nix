@@ -31,7 +31,9 @@ in
     # ../../modules/core/dlna.nix
 
     # Optional
-    ../../modules/hardware/drives # Automatically mount extra external/internal drives
+    # ../../modules/hardware/drives # Mounts /mnt/work + /mnt/games with hard-coded UUIDs.
+    #                                Edit modules/hardware/drives/*.nix with your real UUIDs
+    #                                before enabling, otherwise boot fails on a fresh machine.
     ../../modules/hardware/video/${vars.videoDriver}.nix # Enable gpu drivers defined in variables.nix
     ../../modules/desktop/${vars.desktop} # Set window manager defined in variables.nix
     ../../modules/programs/browser/${vars.browser} # Set browser defined in variables.nix

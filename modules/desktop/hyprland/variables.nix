@@ -6,7 +6,8 @@
 }:
 let
   inherit (lib) getExe;
-  inherit (import ../../../hosts/${host}/variables.nix)
+  hostVars = import ../../../hosts/${host}/variables.nix;
+  inherit (hostVars)
     bar
     browser
     terminal
@@ -16,6 +17,8 @@ let
     capslockAsESC
     defaultWallpaper
     ;
+  hidpi = hostVars.hidpi or true;
+  cursorSize = if hidpi then 24 else 18;
 
   # Import script modules
   # autowaybar = pkgs.callPackage ./scripts/autowaybar.nix { };
@@ -59,6 +62,7 @@ in
             mainMod = "SUPER"
             launcher = "${getExe launcher}"
             bar = "${if bar == "wayle" then "wayle shell" else bar}"
+            cursorSize = ${toString cursorSize}
             term = "${terminal}"
             editor = "code --disable-gpu"
             browser = "${browser}"

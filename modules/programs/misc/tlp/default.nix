@@ -15,11 +15,13 @@
       # CPU_MIN_PERF_ON_AC = 0;
       # CPU_MIN_PERF_ON_BAT = 0;
 
-      # Protect battery
+      # Protect battery (BAT0 is the standard primary on every TLP-supported
+      # laptop; uncomment BAT1 if your machine has a secondary/external bay
+      # battery — e.g. ThinkPad UltraBay batteries).
       START_CHARGE_THRESH_BAT0 = 82;
       STOP_CHARGE_THRESH_BAT0 = 95;
-      START_CHARGE_THRESH_BAT1 = 82;
-      STOP_CHARGE_THRESH_BAT1 = 95;
+      # START_CHARGE_THRESH_BAT1 = 82;
+      # STOP_CHARGE_THRESH_BAT1 = 95;
     };
   };
 }

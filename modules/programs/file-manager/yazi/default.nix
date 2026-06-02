@@ -1,6 +1,7 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, host, ... }:
 let
   initLua = import ./plugins { inherit lib; };
+  inherit (import ../../../../hosts/${host}/variables.nix) workDir gamesDir;
 in
 {
   home-manager.sharedModules = [
@@ -128,14 +129,14 @@ in
                 "g"
                 "p"
               ];
-              run = "cd /mnt/work/Projects";
+              run = "cd ${workDir}/Projects";
             }
             {
               on = [
                 "g"
                 "P"
               ];
-              run = "cd /mnt/games/Windows/Pirate";
+              run = "cd ${gamesDir}/Windows/Pirate";
             }
           ];
         };

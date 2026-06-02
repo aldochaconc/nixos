@@ -1,8 +1,15 @@
 {
   lib,
   pkgs,
+  host,
   ...
 }:
+let
+  vars = import ../../../../hosts/${host}/variables.nix;
+  inherit (vars) workDir;
+  hidpi = vars.hidpi or true;
+  fontSize = if hidpi then 12.0 else 10.0;
+in
 {
   home-manager.sharedModules = [
     (_: {
@@ -97,7 +104,7 @@
               ];
             };
 
-            font.size = 12.0;
+            font.size = fontSize;
 
             window = {
               decorations = "full";
@@ -118,7 +125,7 @@
 
             keyboard.bindings = [
               {
-                chars = "cd $(${getExe pkgs.fd} . /mnt/work /mnt/work/dev/ /run /run/current-system ~/.local/ ~/ --max-depth 2 | fzf)\r";
+                chars = "cd $(${getExe pkgs.fd} . ${workDir} ${workDir}/dev/ /run /run/current-system ~/.local/ ~/ --max-depth 2 | fzf)\r";
                 key = "F";
                 mods = "Control";
               }
