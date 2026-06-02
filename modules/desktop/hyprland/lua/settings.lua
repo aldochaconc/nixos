@@ -47,14 +47,18 @@ hl.config({
 
 			touchpad = {
 				natural_scroll = false,
+				disable_while_typing = true,
+				clickfinger_behavior = true,
+				scroll_factor = 0.4,
 			},
 
 			tablet = {
 				output = "current",
 			},
 
-			sensitivity = 0,
-			force_no_accel = true,
+			sensitivity = -0.3,
+			accel_profile = "adaptive",
+			force_no_accel = false,
 		}
 
 		if capslockAsESC then
@@ -147,6 +151,19 @@ hl.config({
 		--allow_workspace_cycles=1,
 		--pass_mouse_when_bound=0,
 	},
+})
+
+hl.device({
+	name = "synps/2-synaptics-touchpad",
+	sensitivity = -0.1,
+	scroll_factor = 0.3,
+	accel_profile = "adaptive",
+})
+
+hl.device({
+	name = "tpps/2-ibm-trackpoint",
+	sensitivity = -0.55,
+	accel_profile = "adaptive",
 })
 
 hl.gesture({
